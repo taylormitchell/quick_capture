@@ -25,24 +25,24 @@ class NoteDB:
     self.db = database.Database(db_url) if db_url else db
 
   def to_json(self):
-    return json.dumps(dict(db.items()))
+    return json.dumps(dict(self.db.items()))
 
   def get_latest(self):
-    return db["notes"][-1]
+    return self.db["notes"][-1]
 
   def save_note(self, note, tags=[]):
     timestamp = int(datetime.datetime.now().timestamp())
-    notes = db.get("notes", [])
+    notes = self.db.get("notes", [])
     notes.append({
       "timestamp": timestamp,
       "note": note,
       "tags": tags
     })
-    db["notes"] = notes
+    self.db["notes"] = notes
 
   def delete_all(self):
-    for k in db.keys():
-      del db[k]
+    for k in self.db.keys():
+      del self.db[k]
 
 notedb = NoteDB()
 
